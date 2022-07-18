@@ -1,19 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import ReactDOM from 'react-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { PublicClientApplication } from '@azure/msal-browser';
+import { msalConfig } from './authConfig';
+import { setMetadataCache } from 'dataverse-ify';
+import { metadataCache } from './dataverse-gen/metadata';
+import { MsalProvider } from '@azure/msal-react';
+import { initializeIcons } from '@fluentui/react';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+export const msalInstance = new PublicClientApplication(msalConfig);
+setMetadataCache(metadataCache);
+initializeIcons();
+ReactDOM.render(
+    <React.StrictMode>
+        <MsalProvider instance={msalInstance}>
+            <App />
+        </MsalProvider>
+    </React.StrictMode>,
+    document.getElementById('root'),
 );
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
