@@ -1,3 +1,4 @@
+import { AuthenticationResult } from '@azure/msal-common';
 import { useAccount, useMsal } from '@azure/msal-react';
 import { XrmContextDataverseClient } from 'dataverse-ify';
 import { BrowserWebApi } from 'dataverse-ify/lib/webapi/browser';
@@ -26,7 +27,7 @@ export const useDataverseClient = (operation: (client: XrmContextDataverseClient
                         account: account,
                     },
                 })
-                .then((response) => {
+                .then((response: AuthenticationResult) => {
                     if (response && webApiRef && webApiRef.current) {
                         webApiRef.current.setAccessToken(response.accessToken);
                         operation(dataverseClientRef.current as XrmContextDataverseClient);
